@@ -127,20 +127,22 @@ class AlgoStrategy(gamelib.AlgoCore):
 
     def strategy_plant_matter(self,game_state):
         self.build_setup(game_state)
-        self.spawn_demolishers(game_state)
+        self.spawn_scouts(game_state)
 
     
 
     def build_setup(self,game_state):
         wall_locations=[[0, 13], [1, 13], [2, 13], [25, 13], [26, 13], [27, 13], [4, 12], [5, 12], [6, 12], [11, 12], [12, 12], [13, 12], [14, 12], [15, 12], [16, 12], [21, 12], [22, 12], [23, 12], [7, 10], [8, 10], [9, 10], [18, 10], [19, 10], [20, 10]]
-        second_walls = [[3, 13], [24, 13], [3, 12], [24, 12], [6, 11], [7, 11], [20, 11], [21, 11]]
+        #second_walls = [[3, 13], [24, 13], [3, 12], [24, 12], [6, 11], [7, 11], [20, 11], [21, 11]]
+        second_turrets = [[2, 12], [25, 12], [7, 9], [20, 9]]
         turret_locations=[[1, 12], [26, 12], [5, 11], [12, 11], [15, 11], [22, 11], [8, 9], [19, 9]]
         game_state.attempt_spawn(WALL,wall_locations)
         game_state.attempt_spawn(TURRET,turret_locations)
-        game_state.attempt_spawn(WALL,second_walls)
+        game_state.attempt_spawn(TURRET,second_turrets)
         self.spawn_supports(game_state)
-        game_state.attempt_upgrade(second_walls)
         game_state.attempt_upgrade(turret_locations)
+        game_state.attempt_upgrade(wall_locations)
+        game_state.attempt_upgrade(second_turrets)
         
     
     def spawn_demolishers(self,game_state):
@@ -150,8 +152,13 @@ class AlgoStrategy(gamelib.AlgoCore):
         if(game_state.turn_number%6==2):
                 game_state.attempt_spawn(DEMOLISHER,[demolisher_locations[0]],1000)
     
-    
-    
+    def spawn_scouts(self,game_state):
+        scout_locations =[[9,4],[18,4]]
+        if(game_state.turn_number%3==2 and game_state.turn_number%6==5):
+                game_state.attempt_spawn(SCOUT,[scout_locations[1]],1000)
+        if(game_state.turn_number%6==2):
+                game_state.attempt_spawn(SCOUT,[scout_locations[0]],1000)
+        
     
     def build_defenses1(self,game_state):
         wall_locations=[[0, 13], [1, 13], [2, 13], [25, 13], [26, 13], [27, 13], [4, 12], [5, 12], [6, 12], [11, 12], [12, 12], [13, 12], [14, 12], [15, 12], [16, 12], [21, 12], [22, 12], [23, 12], [7, 10], [8, 10], [9, 10], [18, 10], [19, 10], [20, 10]]
