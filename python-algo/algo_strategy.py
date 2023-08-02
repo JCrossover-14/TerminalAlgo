@@ -19,6 +19,7 @@ Advanced strategy tips:
   the actual current map state.
 """
 
+
 class AlgoStrategy(gamelib.AlgoCore):
     def __init__(self):
         super().__init__()
@@ -68,6 +69,8 @@ class AlgoStrategy(gamelib.AlgoCore):
     def strategy_plant_matter(self,game_state):
         self.build_defenses1(game_state)
         self.spawn_demolishers(game_state)
+        self.spawn_supports(game_state)
+        self.upgrade_turrets(game_state)
 
 
 
@@ -132,8 +135,18 @@ class AlgoStrategy(gamelib.AlgoCore):
         turret_locations=[[1, 12], [26, 12], [5, 11], [12, 11], [15, 11], [22, 11], [8, 9], [19, 9]]
         game_state.attempt_spawn(WALL,wall_locations)
         game_state.attempt_spawn(TURRET,turret_locations)
+        game_state.attempt_upgrade(wall_locations)
 
 
+    def upgrade_turrets(self,game_state):
+        turret_locations=[[1, 12], [26, 12], [5, 11], [12, 11], [15, 11], [22, 11], [8, 9], [19, 9]]
+        game_state.attempt_upgrade(turret_locations)
+
+    def spawn_supports(self,game_state):
+        support_locations=[[11, 9], [13, 9], [15, 9], [11, 8], [13, 8], [15, 8], [12, 6], [13, 6], [14, 6], [13, 5]]
+        game_state.atempt_spawn(SUPPORT,support_locations)
+    
+    
     def spawn_demolishers(self,game_state):
         demolisher_locations = [[9, 4], [18, 4]]
         if(game_state.turn_number%3==0):
