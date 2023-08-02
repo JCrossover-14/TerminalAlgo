@@ -144,7 +144,7 @@ class AlgoStrategy(gamelib.AlgoCore):
 
     def spawn_supports(self,game_state):
         support_locations=[[11, 9], [13, 9], [15, 9], [11, 8], [13, 8], [15, 8], [12, 6], [13, 6], [14, 6], [13, 5]]
-        game_state.atempt_spawn(SUPPORT,support_locations)
+        game_state.attempt_spawn(SUPPORT,support_locations)
     
     
     def spawn_demolishers(self,game_state):
