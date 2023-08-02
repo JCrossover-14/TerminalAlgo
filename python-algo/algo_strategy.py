@@ -142,11 +142,11 @@ class AlgoStrategy(gamelib.AlgoCore):
         
         game_state.attempt_spawn(WALL,wall_one)
         game_state.attempt_spawn(TURRET,turret_one)
-        game_state.attempt_upgrade(wall_one)
         game_state.attempt_spawn(TURRET,turret_two)
         self.spawn_supports(game_state)
         game_state.attempt_upgrade(turret_one)
         game_state.attempt_upgrade(turret_two)
+        game_state.attempt_upgrade(wall_one)
 
 
 
