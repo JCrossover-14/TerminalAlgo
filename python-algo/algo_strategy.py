@@ -74,8 +74,9 @@ class AlgoStrategy(gamelib.AlgoCore):
         If there are no stationary units to attack in the front, we will send Scouts to try and score quickly.
         """
         # First, place basic defenses
-        self.build_defences1(game_state)
+        self.build_defenses1(game_state)
         # Now build reactive defenses based on where the enemy scored
+
         self.build_reactive_defense(game_state)
 
         # If the turn is less than 5, stall with interceptors and wait to see enemy's base
@@ -112,20 +113,23 @@ class AlgoStrategy(gamelib.AlgoCore):
         # Place turrets that attack enemy units
         #turret_locations = [[0, 13], [27, 13], [8, 11], [19, 11], [13, 11], [14, 11]]
         # attempt_spawn will try to spawn units if we have resources, and will check if a blocking unit is already there
-       # game_state.attempt_spawn(TURRET, turret_locations)
+        #game_state.attempt_spawn(TURRET, turret_locations)
         
         # Place walls in front of turrets to soak up damage for them
         #wall_locations = [[8, 12], [19, 12]]
        # game_state.attempt_spawn(WALL, wall_locations)
         # upgrade walls so they soak more damage
-       # game_state.attempt_upgrade(wall_locations)
+        #game_state.attempt_upgrade(wall_locations)
 
+    
     def build_defenses1(self,game_state):
-        wall_locations=[[0, 13], [1, 13], [2, 13], [25, 13], [26, 13], [27, 13], [4, 12], [5, 12], [6, 12], [11, 12], [12, 12], [13, 12], [14, 12], [15, 12], [16, 12], [21, 12], [22, 12], [23, 12], [7, 10], [8, 10], [9, 10], [18, 10], [19, 10], [20, 10]];
+        wall_locations=[[0, 13], [1, 13], [2, 13], [25, 13], [26, 13], [27, 13], [4, 12], [5, 12], [6, 12], [11, 12], [12, 12], [13, 12], [14, 12], [15, 12], [16, 12], [21, 12], [22, 12], [23, 12], [7, 10], [8, 10], [9, 10], [18, 10], [19, 10], [20, 10]]
         turret_locations=[[1, 12], [26, 12], [5, 11], [12, 11], [15, 11], [22, 11], [8, 9], [19, 9]]
-
         game_state.attempt_spawn(WALL,wall_locations)
         game_state.attempt_spawn(TURRET,turret_locations)
+
+
+
 
 
     def build_reactive_defense(self, game_state):
