@@ -145,9 +145,9 @@ class AlgoStrategy(gamelib.AlgoCore):
     
     def spawn_demolishers(self,game_state):
         demolisher_locations = [[9, 4], [18, 4]]
-        if(game_state.turn_number%3==0 and game_state.turn_number%6==3):
+        if(game_state.turn_number%3==2 and game_state.turn_number%6==5):
                 game_state.attempt_spawn(DEMOLISHER,[demolisher_locations[1]],1000)
-        if(game_state.turn_number%6==0):
+        if(game_state.turn_number%6==2):
                 game_state.attempt_spawn(DEMOLISHER,[demolisher_locations[0]],1000)
          
     
