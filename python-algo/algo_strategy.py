@@ -126,11 +126,32 @@ class AlgoStrategy(gamelib.AlgoCore):
         #game_state.attempt_upgrade(wall_locations)
 
     def strategy_plant_matter(self,game_state):
-        self.build_setup(game_state)
+        self.build_reactive_defense(game_state)
+        self.build_funnel(game_state)
         self.spawn_scouts(game_state)
-
+        self.build_reactive_counter(game_state)
+        
     
 
+    #funnel algorithm
+    def build_funnel(self,game_state):
+        wall_one = [[1, 13], [23, 13], [24, 13], [25, 13], [26, 13], [2, 12], [21, 12], [23, 12], [3, 11], [20, 11], [23, 11], [4, 10], [19, 10], [22, 10], [5, 9], [6, 9], [18, 9], [21, 9], [7, 8], [16, 8], [17, 8], [20, 8], [8, 7], [9, 7], [10, 7], [11, 7], [12, 7], [13, 7], [14, 7], [15, 7]]
+        mobile_launch = [[14,0]]
+        turret_one = [[0, 13], [27, 13], [24, 12], [24, 11], [23, 10]]
+        turret_two = [[2, 11], [19, 11], [18, 10], [4, 9], [22, 9], [21, 8], [7, 7], [16, 7], [11, 6]]
+        
+        game_state.attempt_spawn(WALL,wall_one)
+        game_state.attempt_spawn(TURRET,turret_one)
+        game_state.attempt_upgrade(wall_one)
+        game_state.attempt_spawn(TURRET,turret_two)
+        self.spawn_supports(game_state)
+        game_state.attempt_upgrade(turret_one)
+        game_state.attempt_upgrade(turret_two)
+
+
+
+
+    #1700 Rated algorithm
     def build_setup(self,game_state):
         wall_locations=[[0, 13], [1, 13], [2, 13], [25, 13], [26, 13], [27, 13], [4, 12], [5, 12], [6, 12], [11, 12], [12, 12], [15, 12], [16, 12], [21, 12], [22, 12], [23, 12], [7, 10], [8, 10], [9, 10], [18, 10], [19, 10], [20, 10]]
         #second_walls = [[3, 13], [24, 13], [3, 12], [24, 12], [6, 11], [7, 11], [20, 11], [21, 11]]
@@ -173,17 +194,15 @@ class AlgoStrategy(gamelib.AlgoCore):
         game_state.attempt_spawn(TURRET,turret_locations)
         game_state.attempt_upgrade(wall_locations)
 
-
-    def upgrade_turrets(self,game_state):
-        turret_locations=[[1, 12], [26, 12], [5, 11], [12, 11], [15, 11], [22, 11], [8, 9], [19, 9]]
-        game_state.attempt_upgrade(turret_locations)
-
     def spawn_supports(self,game_state):
         support_locations=[[11, 9], [13, 9], [15, 9], [11, 8], [13, 8], [15, 8], [12, 6], [13, 6], [14, 6], [13, 5]]
         game_state.attempt_spawn(SUPPORT,support_locations)
-    
-    
 
+
+    def build_reactive_counter(self,game_state):
+        
+        for location in self.scored_on_locations:
+            game_state.attempt_spawn(INTERCEPTOR,[location[0],location[1]])
 
 
     def build_reactive_defense(self, game_state):
