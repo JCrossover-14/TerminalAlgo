@@ -67,6 +67,7 @@ class AlgoStrategy(gamelib.AlgoCore):
     """
     def strategy_plant_matter(self,game_state):
         self.build_defenses1(game_state)
+        self.spawn_demolishers(game_state)
 
 
 
@@ -133,6 +134,13 @@ class AlgoStrategy(gamelib.AlgoCore):
         game_state.attempt_spawn(TURRET,turret_locations)
 
 
+    def spawn_demolishers(self,game_state):
+        demolisher_locations = [[9, 4], [18, 4]]
+        if(game_state.turn_number%3==0):
+            if(game_state.turn_number%6==0):
+                game_state.attempt_spawn(DEMOLISHER,[demolisher_locations[0]],1000)
+            else:
+                game_state.attempt_spawn(DEMOLISHER,[demolisher_locations[1]],1000)
 
 
 
