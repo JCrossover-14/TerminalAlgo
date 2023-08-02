@@ -149,7 +149,8 @@ class AlgoStrategy(gamelib.AlgoCore):
                 game_state.attempt_spawn(DEMOLISHER,[demolisher_locations[1]],1000)
         if(game_state.turn_number%6==0):
                 game_state.attempt_spawn(DEMOLISHER,[demolisher_locations[0]],1000)
-         
+    
+    
     
     
     def build_defenses1(self,game_state):
