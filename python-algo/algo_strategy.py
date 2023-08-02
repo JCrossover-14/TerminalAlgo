@@ -65,6 +65,10 @@ class AlgoStrategy(gamelib.AlgoCore):
     NOTE: All the methods after this point are part of the sample starter-algo
     strategy and can safely be replaced for your custom algo.
     """
+    def strategy_plant_matter(self,game_state):
+        self.build_defenses1(game_state)
+
+
 
     def starter_strategy(self, game_state):
         """
