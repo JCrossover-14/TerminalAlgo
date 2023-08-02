@@ -101,7 +101,7 @@ class AlgoStrategy(gamelib.AlgoCore):
                 support_locations = [[13, 2], [14, 2], [13, 3], [14, 3]]
                 game_state.attempt_spawn(SUPPORT, support_locations)
 
-    def build_defences(self, game_state):
+    #def build_defences(self, game_state):
         """
         Build basic defenses using hardcoded locations.
         Remember to defend corners and avoid placing units in the front where enemy demolishers can attack them.
@@ -110,15 +110,15 @@ class AlgoStrategy(gamelib.AlgoCore):
         # More community tools available at: https://terminal.c1games.com/rules#Download
 
         # Place turrets that attack enemy units
-        turret_locations = [[0, 13], [27, 13], [8, 11], [19, 11], [13, 11], [14, 11]]
+        #turret_locations = [[0, 13], [27, 13], [8, 11], [19, 11], [13, 11], [14, 11]]
         # attempt_spawn will try to spawn units if we have resources, and will check if a blocking unit is already there
-        game_state.attempt_spawn(TURRET, turret_locations)
+       # game_state.attempt_spawn(TURRET, turret_locations)
         
         # Place walls in front of turrets to soak up damage for them
-        wall_locations = [[8, 12], [19, 12]]
-        game_state.attempt_spawn(WALL, wall_locations)
+        #wall_locations = [[8, 12], [19, 12]]
+       # game_state.attempt_spawn(WALL, wall_locations)
         # upgrade walls so they soak more damage
-        game_state.attempt_upgrade(wall_locations)
+       # game_state.attempt_upgrade(wall_locations)
 
     def build_defenses1(self,game_state):
         wall_locations=[[0, 13], [1, 13], [2, 13], [25, 13], [26, 13], [27, 13], [4, 12], [5, 12], [6, 12], [11, 12], [12, 12], [13, 12], [14, 12], [15, 12], [16, 12], [21, 12], [22, 12], [23, 12], [7, 10], [8, 10], [9, 10], [18, 10], [19, 10], [20, 10]];
