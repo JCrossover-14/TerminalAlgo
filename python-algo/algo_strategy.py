@@ -136,13 +136,18 @@ class AlgoStrategy(gamelib.AlgoCore):
         #second_walls = [[3, 13], [24, 13], [3, 12], [24, 12], [6, 11], [7, 11], [20, 11], [21, 11]]
         second_turrets = [[2, 12], [25, 12], [7, 9], [20, 9]]
         turret_locations=[[1, 12], [26, 12], [5, 11], [12, 11], [15, 11], [22, 11], [8, 9], [19, 9]]
+        third_turrets = [[3, 11], [24, 11], [9, 9], [18, 9]]
+        second_walls = [[3, 13], [24, 13], [3, 12], [7, 12], [20, 12], [24, 12], [7, 11], [20, 11]]
         game_state.attempt_spawn(WALL,wall_locations)
         game_state.attempt_spawn(TURRET,turret_locations)
+        game_state.attempt_spawn(WALL,second_walls)
         game_state.attempt_spawn(TURRET,second_turrets)
         self.spawn_supports(game_state)
+        game_state.attempt_spawn(TURRET,third_turrets)
         game_state.attempt_upgrade(turret_locations)
         game_state.attempt_upgrade(wall_locations)
         game_state.attempt_upgrade(second_turrets)
+        game_state.attempt_upgrade(third_turrets)
         
     
     def spawn_demolishers(self,game_state):
