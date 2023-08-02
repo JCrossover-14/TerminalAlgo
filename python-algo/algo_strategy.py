@@ -126,7 +126,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         #game_state.attempt_upgrade(wall_locations)
 
     def strategy_plant_matter(self,game_state):
-        self.build_setup(self,game_state)
+        self.build_setup(game_state)
         self.spawn_demolishers(game_state)
 
     
