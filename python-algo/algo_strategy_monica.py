@@ -131,11 +131,21 @@ class AlgoStrategy(gamelib.AlgoCore):
         if game_state.turn_number<3;
             self.put_interceptor(game_state)
             self.build_early(game_state)
-        else :
+          elif game_state.turn_number<30:
             self.build_funnel(game_state) 
-        if supporttaken.blocked==1 and MP>11:
-           self.spawn_demolishers_or_scouts(game_state)
+            if supporttaken.blocked==1 and MP>11:
+               self.spawn_demolishers_or_scouts(game_state)
+          else:
+            self.build_funnel(game_state)
+            if game_state.turn_number%2==0:
+              self.build_block(game_state)
+            elif MP>11:
+              self.spawn_demolishers_or_scouts(game_state)
 
+   def build_block(self, game_state):
+     blook =[[14, 7], [13, 7]]
+     game_state.attempt_spawn(WALL,blook)
+     
   supporttaken=[13,0]
      # early steps
     def build_early(self, game_state):
@@ -161,16 +171,17 @@ class AlgoStrategy(gamelib.AlgoCore):
         support_two = [[25, 11], [24, 10], [23, 9], [22, 8], [21, 7], [20, 6], [19, 5]]
         game_state.attempt_spawn(WALL,wall_one)
         game_state.attempt_spawn(TURRET,turret_one)
+        game_state.attempt_upgrade(wall_one)
+        game_state.attempt_upgrade(turret_one)
         game_state.attempt_spawn(TURRET,turret_two)
-        game_state.attempt_upgrade(wall_upgrade_one)
         game_state.attempt_spawn(WALL,wall_two)
-        game_state.attempt_spawn(TURRET,turret_three)
         game_state.attempt_spawn(SUPPORT,support_one)
-        game_state.attempt_upgrade(turret_upgrade_one)
-        game_state.attempt_spawn(WALL,wall_three)
+        game_state.attempt_spawn(TURRET,turret_three)
         game_state.attempt_spawn(SUPPORT,support_two)
         game_state.attempt_upgrade(support_one)
         game_state.attempt_upgrade(support_two)
+        game_state.attempt_upgrade(turret_two)
+        game_state.attempt_upgrade(turret_three)
         
         
 
