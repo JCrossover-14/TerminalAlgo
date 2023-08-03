@@ -134,13 +134,13 @@ class AlgoStrategy(gamelib.AlgoCore):
             self.build_early(game_state)
         elif game_state.turn_number<30:
             self.build_funnel(game_state) 
-            if supporttaken.blocked==1 and MP>11:
+            if game_state.contains_stationary_unit(supporttaken)!=False and game_state.get_resources(0)[1]>11:
                self.spawn_demolishers_or_scouts(game_state)
         else:
             self.build_funnel(game_state)
             if game_state.turn_number%2==0:
               self.build_block(game_state)
-            elif MP>11:
+            elif game_state.get_resources(0)[1]>11:
               self.spawn_demolishers_or_scouts(game_state)
 
     def build_block(self, game_state):
@@ -211,8 +211,8 @@ class AlgoStrategy(gamelib.AlgoCore):
 
     def spawn_demolishers_or_scouts(self,game_state):
         veccy= game_state.find_path_to_edge([14,0], target_edge=None)
-        finset=veccy(len(veccy)-1)
-        if (finset[0]+finset[1]==41 or finset[1]-finset[0]==14)and finset(2)>13:
+        finset=veccy[len(veccy)-1]
+        if (finset[0]+finset[1]==41 or finset[1]-finset[0]==14)and finset[2]>13:
          #if blocky is 1 then the path is blocked
             blocky=0
         else:
@@ -222,7 +222,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         if blocky ==0:
             game_state.attempt_spawn(SCOUT,[14,0],1000)
         if blocky ==1: 
-         game_state.attempt_spawn(DEMOLISHER,[14,0],1000)   
+            game_state.attempt_spawn(DEMOLISHER,[14,0],1000)   
   
 
     def spawn_demolishers(self,game_state):
