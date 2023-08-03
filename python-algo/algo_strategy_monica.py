@@ -128,7 +128,7 @@ class AlgoStrategy(gamelib.AlgoCore):
 ##################################################################################################################################### 
     
     def strategy_plant_matter(self,game_state):
-        if game_state.turn_number<3;
+        if game_state.turn_number<3:
             self.put_interceptor(game_state)
             self.build_early(game_state)
         else :
