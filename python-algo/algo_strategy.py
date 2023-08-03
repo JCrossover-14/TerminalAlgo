@@ -136,21 +136,22 @@ class AlgoStrategy(gamelib.AlgoCore):
     #funnel algorithm
     def build_funnel(self,game_state):
         wall_one =[[1, 13], [21, 13], [23, 13], [24, 13], [25, 13], [26, 13], [2, 12], [20, 12], [23, 12], [3, 11], [19, 11], [22, 11], [4, 10], [18, 10], [21, 10], [5, 9], [17, 9], [20, 9], [6, 8], [16, 8], [19, 8], [7, 7], [8, 7], [9, 7], [10, 7], [11, 7], [12, 7], [13, 7], [14, 7], [15, 7]]
-        turret_one=[[0, 13], [27, 13], [24, 12], [17, 10], [6, 7]]
-        turret_two =[[19, 12], [23, 11], [3, 10], [22, 10], [16, 9], [21, 9], [9, 8], [10, 8], [11, 8], [12, 8], [13, 8], [14, 8], [15, 8], [20, 8], [19, 7], [18, 6], [17, 5], [11, 4], [12, 4], [13, 4], [14, 4], [15, 4], [16, 4]]
+        turret_one=[[1, 12], [24, 12], [26, 12], [17, 10], [6, 7]]
+        turret_two =[[19, 12], [25, 12], [2, 11], [23, 11], [3, 10], [22, 10], [16, 9], [12, 8], [14, 8], [15, 8], [20, 8], [18, 6]]
         support_one =[[14, 3], [12, 2], [15, 2], [13, 1], [15, 1]]
         wall_two = [[18, 13], [19, 13], [20, 13], [18, 7], [17, 6], [11, 5], [12, 5], [13, 5], [14, 5], [15, 5], [16, 5]]
-        turret_three=[[1, 12], [18, 12], [25, 12], [26, 12], [2, 11], [17, 11], [18, 11], [24, 11], [16, 10], [23, 10], [4, 9], [6, 9], [7, 9], [8, 9], [9, 9], [10, 9], [11, 9], [12, 9], [13, 9], [14, 9], [15, 9], [22, 9], [5, 8], [7, 8], [8, 8], [21, 8], [20, 7], [19, 6], [18, 5], [10, 4], [17, 4]]
+        turret_three=[[18, 12], [17, 11], [18, 11], [24, 11], [16, 10], [23, 10], [4, 9], [6, 9], [7, 9], [8, 9], [9, 9], [10, 9], [11, 9], [12, 9], [13, 9], [14, 9], [15, 9], [21, 9], [22, 9], [5, 8], [7, 8], [8, 8], [9, 8], [10, 8], [11, 8], [13, 8], [21, 8], [19, 7], [20, 7], [19, 6], [17, 5], [18, 5], [11, 4], [12, 4], [13, 4], [14, 4], [15, 4], [16, 4], [17, 4]]
         support_two = [[25, 11], [24, 10], [23, 9], [22, 8], [21, 7], [7, 6], [20, 6], [19, 5], [18, 4], [15, 3], [16, 3], [17, 3], [11, 2], [16, 2], [12, 1], [13, 0]]
-        wall_three = [[2, 13], [3, 12], [17, 12], [4, 11], [16, 11], [5, 10], [6, 10], [7, 10], [8, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [14, 10], [15, 10], [9, 5], [10, 5]]
+        wall_three = [[2, 13], [3, 12], [17, 12], [4, 11], [16, 11], [5, 10], [6, 10], [7, 10], [8, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [14, 10], [15, 10], [10, 5]]
         game_state.attempt_spawn(WALL,wall_one)
         game_state.attempt_spawn(TURRET,turret_one)
         game_state.attempt_spawn(TURRET,turret_two)
         game_state.attempt_spawn(SUPPORT,support_one)
         game_state.attempt_spawn(WALL,wall_two)
+        game_state.attempt_spawn(WALL,wall_three)
         game_state.attempt_spawn(TURRET,turret_three)
         game_state.attempt_spawn(SUPPORT,support_two)
-        game_state.attempt_spawn(WALL,wall_three)
+        
         
 
     def put_interceptor(self,game_state):
@@ -186,8 +187,15 @@ class AlgoStrategy(gamelib.AlgoCore):
 
     def spawn_demolishers1(self,game_state):
         location = [[14,0]]
-        if game_state.turn_number%3==2:
+        corners = [[0,13],[27,13]]
+        if game_state.turn_number%3==2 and game_state.turn_number%6==5:
             game_state.attempt_spawn(DEMOLISHER,location,1000)
+        if game_state.turn_number%6==2:
+            number = random.randint(0,1)
+            if number ==1:
+                game_state.attempt_spawn(DEMOLISHER,[corners[0]],1000)
+            else:
+                game_state.attempt_spawn(DEMOLISHER,[corners[1]],1000)
     
     def spawn_scouts(self,game_state):
         scout_locations =[[9,4],[18,4]]
@@ -209,11 +217,6 @@ class AlgoStrategy(gamelib.AlgoCore):
         support_locations=[[11, 9], [13, 9], [15, 9], [11, 8], [13, 8], [15, 8], [12, 6], [13, 6], [14, 6], [13, 5]]
         game_state.attempt_spawn(SUPPORT,support_locations)
 
-
-    def build_reactive_counter(self,game_state):
-        
-        for location in self.scored_on_locations:
-            game_state.attempt_spawn(INTERCEPTOR,[location[0],location[1]])
 
 
     def build_reactive_defense(self, game_state):
