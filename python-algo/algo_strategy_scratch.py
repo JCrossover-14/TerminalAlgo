@@ -207,6 +207,7 @@ class AlgoStrategy(gamelib.AlgoCore):
     def destroyer_utility(self,game_state):
         location_options = [[10, 3], [17, 3], [11, 2], [16, 2], [12, 1], [15, 1]]
         count = game_state.get_resources(0)[1]//3
+        count1 = count
         life_per_unit = len(supports)*3+5
         life_dummy = life_per_unit
         damages=[]
@@ -224,7 +225,7 @@ class AlgoStrategy(gamelib.AlgoCore):
             damage+=count*34.5
             damages.append(damage)
 
-        return [location_options[damages.index(max(damages))],(max(damages)/(count*3))/34]
+        return [location_options[damages.index(max(damages))],(max(damages)/(count1*3))/34]
     
     def scout_utility(self,game_state):
         location_options = [[10, 3], [17, 3], [11, 2], [16, 2], [12, 1], [15, 1]]
