@@ -108,7 +108,7 @@ class AlgoStrategy(gamelib.AlgoCore):
             self.upgrade_one_support(game_state)
         
         if game_state.turn_number <2:
-            self.two_interceptor(self,game_state)
+            self.two_interceptor(game_state)
         else:  
             scouts_util = self.scout_utility(game_state)
             destroyer_util = self.destroyer_utility(game_state)
@@ -218,7 +218,7 @@ class AlgoStrategy(gamelib.AlgoCore):
                 if life_dummy<=0:
                     life_dummy=life_per_unit
                     count-=1
-                damage+=len(game_state.get_attackers(path_location,0))*gamelib.GameUnit(DEMOLISHER,game_state.config).damage_f*count+(count*1.5*gamelib.GameUnit(DEMOLISHER,game_state.config)*len(game_state.get_attackers(path_location,0)))
+                damage+=len(game_state.get_attackers(path_location,0))*gamelib.GameUnit(DEMOLISHER,game_state.config).damage_f*count+(count*1.5*gamelib.GameUnit(DEMOLISHER,game_state.config).damage_f*len(game_state.get_attackers(path_location,0)))
                 if count==0:
                     break
             damage+=count*34.5
