@@ -63,9 +63,8 @@ class AlgoStrategy(gamelib.AlgoCore):
         game_state = gamelib.GameState(self.config, turn_state)
         gamelib.debug_write('Performing turn {} of your custom algo strategy'.format(game_state.turn_number))
         game_state.suppress_warnings(True)  #Comment or remove this line to enable warnings.
-        self.strategy_plant_matter(game_state)
+        self.strategy_one(game_state)
         ##self.starter_strategy(game_state)
-
         game_state.submit_turn()
 
 
@@ -85,7 +84,7 @@ class AlgoStrategy(gamelib.AlgoCore):
             self.spawn_demolishers(game_state)
         else:
             self.spawn_scouts(game_state)
-        self.build_funnel(game_state)
+        self.funnel_walls(game_state)
 
 
     def strategy_one(self,game_state):
