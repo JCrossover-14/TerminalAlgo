@@ -24,7 +24,7 @@ turrets_left=[]
 turrets_right=[]
 left_anchor_turret=[[10,8],[11,7]]
 right_anchor_turret = [[17,7],[18,8]]
-supports=[[12, 4], [13, 4], [14, 4], [15, 4], [12, 3], [13, 3], [14, 3], [15, 3]]
+supports=[[13, 4], [14, 4], [13, 3], [14, 3]]
 
 
 class AlgoStrategy(gamelib.AlgoCore):
@@ -93,50 +93,87 @@ class AlgoStrategy(gamelib.AlgoCore):
             self.build_start(game_state)
         if game_state.turn_number <=4:
             self.build_reactive_defense1(game_state)
-        elif game_state.turn_number<7:
+        if game_state.turn_number >4 and game_state.turn_number <8:
+            self.funnel_walls(game_state)
+        if game_state.turn_number >5 and game_state.turn_number <15:
+            if len(walls_left)+len(turrets_left)==len(walls_right)+len(turrets_right):
+                self.upgrade_turret_left(game_state)
+                self.upgrade_turret_right(game_state)
+            elif len(walls_left)+len(turrets_left)>len(walls_right)+len(turrets_right):
+                self.upgrade_turret_left
+            else:
+                self.upgrade_turret_right
+        if game_state.turn_number <=20:
+            self.build_one_support(game_state)
+        if game_state.turn_number>5 and game_state.turn_number <=20:
+            self.upgrade_one_support(game_state)
+        
+        if game_state.turn_number <2:
+            self.two_interceptor(self,game_state)
+        else:  
+            scouts_util = self.scout_utility(game_state)
+            destroyer_util = self.destroyer_utility(game_state)
+            if scouts_util[1]>1 or destroyer_util[1]>1:
+                if scouts_util[1] < destroyer_util[1]:
+                    game_state.attempt_spawn(DEMOLISHER,destroyer_util[0],1000)
+                else:
+                    game_state.attempt_spawn(SCOUT,scouts_util[0],1000)
 
-            
-            
 
-    def build_one_support(self,game_state):
-        locations =[[13, 4], [14, 4], [13, 3], [14, 3]]
-        count = 0
-        for location in locations:
-            if game_state.attempt_spawn(SUPPORT,location,1)==1:
-                break
-            
-
+        
+    def two_interceptor(self,game_state):
+        count =0
+        interceptors=[[20,6],[7,6]]
+        for location in self.scored_on_locations:
+            if game_state.attempt_spawn(INTERCEPTOR,location,1)==1:
+                count+=1
+            if count==2:
+                return
+        for location in interceptors:
+            if game_state.attempt_spawn(INTERCEPTOR,location,1)==1:
+                count+=1
+            if count==2:
+                return
+    
+    def build_start(self,game_state):
+        walls = [[0, 13], [2, 13], [25, 13], [27, 13], [3, 12], [6, 12], [21, 12], [25, 12], [7, 11], [20, 11], [8, 10], [19, 10]]
+        turrets = [[1, 12], [26, 12], [2, 11], [25, 11], [10, 8], [17, 8], [11, 7], [16, 7]]
+        game_state.attempt_spawn(WALL,walls)
+        game_state.attempt_spawn(TURRET,turrets)
 
     def funnel_walls(self,game_state):
         leftwalls = [[4,11],[5,10],[6,9],[7,8],[8,7]]
         rightwalls = [[23,11],[22,10],[21,9],[20,8],[19,7]]
-        leftturrets = [[4,10],[5,9],[6,8],[7,7]]
-        rightturrets=[[23,10],[22,9],[21,8],[20,7]]
+        leftturrets = [[5,9],[6,8],[7,7],[8,6]]
+        rightturrets=[[22,9],[21,8],[20,7],[19,6]]
 
         if len(walls_left)+len(turrets_left)==len(walls_right)+len(turrets_right):
-            game_state.attempt_spawn(TURRET,leftturrets)
-            game_state.attempt_spawn(WALL,leftwalls)
-            game_state.attempt_spawn(TURRET,rightturrets)
-            game_state.attempt_spawn(WALL,rightwalls)
-
+            for location in leftturrets:
+                if game_state.attempt_spawn(TURRET,location)==1:
+                    turrets_left.append(location)
+            for location in rightturrets:
+                if game_state.attempt_spawn(TURRET,location)==1:
+                    turrets_right.append(location)
+            for location in leftwalls:
+                if game_state.attempt_spawn(WALL,location)==1:
+                    walls_left.append(location)
+            for location in rightwalls:
+                if game_state.attempt_spawn(WALL,location)==1:
+                    walls_right.append(location)
         elif len(walls_left)+len(turrets_left)>len(walls_right)+len(turrets_right):
-            game_state.attempt_spawn(TURRET,leftturrets)
-            game_state.attempt_spawn(WALL,leftwalls)
-        
+            for location in leftturrets:
+                if game_state.attempt_spawn(TURRET,location)==1:
+                    turrets_left.append(location)
+            for location in leftwalls:
+                if game_state.attempt_spawn(WALL,location)==1:
+                    walls_left.append(location)
         else:
-            game_state.attempt_spawn(TURRET,rightturrets)
-            game_state.attempt_spawn(WALL,rightwalls)
-
-
-        
-    #funnel setup
-    
-    def build_start(self,game_state):
-        walls = [[0, 13], [2, 13], [26, 13], [27, 13], [3, 12], [6, 12], [22, 12], [25, 12], [7, 11], [21, 11], [8, 10], [20, 10]]
-        turrets = [[1, 12], [26, 12], [2, 11], [25, 11], [10, 8], [18, 8], [11, 7], [17, 7]]
-        game_state.attempt_spawn(WALL,walls)
-        game_state.attempt_spawn(TURRET,turrets)
-
+            for location in rightturrets:
+                if game_state.attempt_spawn(TURRET,location)==1:
+                    turrets_right.append(location)
+            for location in rightwalls:
+                if game_state.attempt_spawn(WALL,location)==1:
+                    walls_right.append(location)
     
     def build_reactive_defense1(self,game_state):
         for location in self.scored_on_locations:
@@ -167,11 +204,86 @@ class AlgoStrategy(gamelib.AlgoCore):
                 spawned = game_state.attempt_spawn(WALL,[left[0],left[1]+2])
                 if spawned==1:
                     walls_right.append([left[0],left[1]+2])
-
     
-    
+    def destroyer_utility(self,game_state):
+        location_options = [[10, 3], [17, 3], [11, 2], [16, 2], [12, 1], [15, 1]]
+        count = game_state.get_resources(0)[1]//3
+        life_per_unit = len(supports)*3+5
+        life_dummy = life_per_unit
+        damages=[]
+        for location in location_options:
+            path = game_state.find_path_to_edge(location)
+            damage = 0
+            for path_location in path:
+                life_dummy-=len(game_state.get_attackers(path_location,0))*gamelib.GameUnit(TURRET,game_state.config).damage_i
+                if life_dummy<=0:
+                    life_dummy=life_per_unit
+                    count-=1
+                damage+=len(game_state.get_attackers(path_location,0))*gamelib.GameUnit(DEMOLISHER,game_state.config).damage_f*count+(count*1.5*gamelib.GameUnit(DEMOLISHER,game_state.config)*len(game_state.get_attackers(path_location,0)))
+                if count==0:
+                    break
+            damage+=count*34.5
+            damages.append(damage)
 
+        return [location_options[damages.index(max(damages))],(max(damages)/(count*3))/34]
+    
+    def scout_utility(self,game_state):
+        location_options = [[10, 3], [17, 3], [11, 2], [16, 2], [12, 1], [15, 1]]
+        count = game_state.get_resources(0)[1]
+        life_per_unit = len(supports)*3+15
+        life_dummy = life_per_unit
+        damages = []
+        for location in location_options:
+            damage = 0
+            path = game_state.find_path_to_edge(location)
+            for path_location in path:
+                life_dummy -=len(game_state.get_attackers(path_location,0))*gamelib.GameUnit(TURRET,game_state.config).damage_i
+                if life_dummy <=0:
+                    life_dummy = life_per_unit
+                    count-=1
+                damage+=count*(len(game_state.get_attackers(path_location,0))+(0.75*len(game_state.get_attackers(path_location,0))))
+            damage+=count*69
+            damages.append(damage)
+        return [location_options[damages.index(max(damages))],damage/(37.5*game_state.get_resources(0)[1])]
+
+    def upgrade_turret_left(self,game_state):
+        for location in turrets_left:
+            if game_state.attempt_upgrade(location)==1:
+                break
+    def upgrade_turret_right(self,game_state):
+        for location in turrets_right:
+            if game_state.attempt_upgrade(location)==1:
+                break
+    def build_one_support(self,game_state):
+        locations =[[13, 4], [14, 4], [13, 3], [14, 3]]
+        count = 0
+        for location in locations:
+            if game_state.attempt_spawn(SUPPORT,location,1)==1:
+                break
+    def upgrade_one_support(self,game_state):
+        for location in supports:
+            if game_state.attempt_upgrade(location)==1:
+                break
+    
+    def least_damage_spawn_location(self, game_state):
+        """
+        This function will help us guess which location is the safest to spawn moving units from.
+        It gets the path the unit will take then checks locations on that path to 
+        estimate the path's damage risk.
+        """
+        location_options = [[10, 3], [17, 3], [11, 2], [16, 2], [12, 1], [15, 1]]
+        damages = []
+        # Get the damage estimate each path will take
+        for location in location_options:
+            path = game_state.find_path_to_edge(location)
+            damage = 0
+            for path_location in path:
+                # Get number of enemy turrets that can attack each location and multiply by turret damage
+                damage += len(game_state.get_attackers(path_location, 0)) * gamelib.GameUnit(TURRET, game_state.config).damage_i
+            damages.append(damage)
         
+        # Now just return the location that takes the least damage
+        return [location_options[damages.index(min(damages))],min(damages)]
 
     def put_interceptor(self,game_state):
         game_state.attempt_spawn(INTERCEPTOR,[[7,6]],2)
@@ -226,8 +338,6 @@ class AlgoStrategy(gamelib.AlgoCore):
                 
                 
 
-
-            
 
     def build_reactive_defense(self, game_state):
         """
@@ -285,24 +395,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         # By asking attempt_spawn to spawn 1000 units, it will essentially spawn as many as we have resources for
         game_state.attempt_spawn(DEMOLISHER, [24, 10], 1000)
 
-    def least_damage_spawn_location(self, game_state, location_options):
-        """
-        This function will help us guess which location is the safest to spawn moving units from.
-        It gets the path the unit will take then checks locations on that path to 
-        estimate the path's damage risk.
-        """
-        damages = []
-        # Get the damage estimate each path will take
-        for location in location_options:
-            path = game_state.find_path_to_edge(location)
-            damage = 0
-            for path_location in path:
-                # Get number of enemy turrets that can attack each location and multiply by turret damage
-                damage += len(game_state.get_attackers(path_location, 0)) * gamelib.GameUnit(TURRET, game_state.config).damage_i
-            damages.append(damage)
-        
-        # Now just return the location that takes the least damage
-        return location_options[damages.index(min(damages))]
+    
 
     def detect_enemy_unit(self, game_state, unit_type=None, valid_x = None, valid_y = None):
         total_units = 0
