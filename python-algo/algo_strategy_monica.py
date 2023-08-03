@@ -200,17 +200,17 @@ class AlgoStrategy(gamelib.AlgoCore):
      def spawn_demolishers_or_scouts(self,game_state):
        veccy= find_path_to_edge([14,0], target_edge=None)
        finset=veccy(end)
-       if (finset(1)+finset(2)==41 or finset(2)-finset(1)==14)and finset(2)>13:
+       if (finset[0]+finset[1]==41 or finset[1]-finset[0]==14)and finset(2)>13:
          #if blocky is 1 then the path is blocked
          blocky=0
          else
          blocky=1
-       if blocky==0 & len(veccy)<53:
+       if blocky==0 & len(veccy)>53:
          blocky =1
        if blocky ==0:
-         game_state.attempt_spawn(DEMOLISHER,[14,0],1000)
-       if blocky ==1: 
          game_state.attempt_spawn(SCOUT,[14,0],1000)
+       if blocky ==1: 
+         game_state.attempt_spawn(DEMOLISHER,[14,0],1000)
   
 
     def spawn_demolishers(self,game_state):
