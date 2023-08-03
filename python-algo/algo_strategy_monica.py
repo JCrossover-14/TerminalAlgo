@@ -128,25 +128,26 @@ class AlgoStrategy(gamelib.AlgoCore):
 ##################################################################################################################################### 
     
     def strategy_plant_matter(self,game_state):
+        supporttaken=[13,0]
         if game_state.turn_number<3:
             self.put_interceptor(game_state)
             self.build_early(game_state)
-          elif game_state.turn_number<30:
+        elif game_state.turn_number<30:
             self.build_funnel(game_state) 
             if supporttaken.blocked==1 and MP>11:
                self.spawn_demolishers_or_scouts(game_state)
-          else:
+        else:
             self.build_funnel(game_state)
             if game_state.turn_number%2==0:
               self.build_block(game_state)
             elif MP>11:
               self.spawn_demolishers_or_scouts(game_state)
 
-   def build_block(self, game_state):
-     blook =[[14, 7], [13, 7]]
-     game_state.attempt_spawn(WALL,blook)
+    def build_block(self, game_state):
+        blook =[[14, 7], [13, 7]]
+        game_state.attempt_spawn(WALL,blook)
      
-  supporttaken=[13,0]
+  
      # early steps
     def build_early(self, game_state):
       # 23 walls
@@ -208,20 +209,20 @@ class AlgoStrategy(gamelib.AlgoCore):
         game_state.attempt_upgrade(second_turrets)
         game_state.attempt_upgrade(third_turrets)
 
-     def spawn_demolishers_or_scouts(self,game_state):
-       veccy= find_path_to_edge([14,0], target_edge=None)
-       finset=veccy(end)
-       if (finset[0]+finset[1]==41 or finset[1]-finset[0]==14)and finset(2)>13:
+    def spawn_demolishers_or_scouts(self,game_state):
+        veccy= game_state.find_path_to_edge([14,0], target_edge=None)
+        finset=veccy(len(veccy)-1)
+        if (finset[0]+finset[1]==41 or finset[1]-finset[0]==14)and finset(2)>13:
          #if blocky is 1 then the path is blocked
-         blocky=0
-         else
-         blocky=1
-       if blocky==0 & len(veccy)>53:
-         blocky =1
-       if blocky ==0:
-         game_state.attempt_spawn(SCOUT,[14,0],1000)
-       if blocky ==1: 
-         game_state.attempt_spawn(DEMOLISHER,[14,0],1000)
+            blocky=0
+        else:
+            blocky=1
+        if blocky==0 & len(veccy)>53:
+            blocky =1
+        if blocky ==0:
+            game_state.attempt_spawn(SCOUT,[14,0],1000)
+        if blocky ==1: 
+         game_state.attempt_spawn(DEMOLISHER,[14,0],1000)   
   
 
     def spawn_demolishers(self,game_state):
