@@ -125,29 +125,40 @@ class AlgoStrategy(gamelib.AlgoCore):
         # upgrade walls so they soak more damage
         #game_state.attempt_upgrade(wall_locations)
 
- 
+##################################################################################################################################### 
     
     def strategy_plant_matter(self,game_state):
-        if game_state.turn_number<2:
+        if game_state.turn_number<3;
             self.put_interceptor(game_state)
-        elif game_state.turn_number<15:
-            self.spawn_demolishers1(game_state)
-        else:
-            self.spawn_scouts(game_state)
-        self.build_funnel(game_state)
-        
+            self.build_early(game_state)
+        else :
+            self.build_funnel(game_state) 
+        if supporttaken.blocked==1 and MP>11:
+           self.spawn_demolishers_or_scouts(game_state)
+
+  supporttaken=[13,0]
+     # early steps
+    def build_early(self, game_state):
+      # 23 walls
+      wall_one =[[2, 13], [22, 13], [24, 13], [25, 13], [3, 12], [21, 12], [4, 11], [20, 11], [5, 10], [6, 10], [19, 10], [7, 9], [18, 9], [8, 8], [9, 8], [10, 8], [11, 8], [12, 8], [13, 8], [14, 8], [15, 8], [16, 8], [17, 8]]
+      #6 turrets
+      turret_one=[[0, 13], [1, 13], [26, 13], [27, 13], [24, 11], [6, 9]] 
+      game_state.attempt_spawn(WALL,wall_one)
+      game_state.attempt_spawn(TURRET,turret_one)
+      game_state.attempt_upgrade(wall_one)
+      game_state.attempt_upgrade(turret_one)
+
+    
     #funnel algorithm
     def build_funnel(self,game_state):
-        wall_one =[ [1, 13], [21, 13], [23, 13], [24, 13], [25, 13], [26, 13], [2, 12], [20, 12], [23, 12], [3, 11], [19, 11], [22, 11], [4, 10], [18, 10], [21, 10], [5, 9], [17, 9], [20, 9], [6, 8], [16, 8], [19, 8], [7, 7], [8, 7], [9, 7], [10, 7], [11, 7], [12, 7], [13, 7], [14, 7], [15, 7]]
-        turret_one=[[1, 12], [24, 12], [26, 12], [17, 10], [6, 7]]
-        turret_two =[[27,13],[0, 13], [19,12],[18, 11], [9, 8],[21, 9],[22, 10],  [19, 7], [17, 5],[20, 8], [13, 4], [14, 4], [15, 4], [5, 8], [11, 8], [13, 8]]
-        support_one = [[13, 3], [11, 2], [14, 2], [12, 1], [15, 1], [13, 0]]
-        wall_two = [[18, 13], [19, 13], [20, 13], [18, 7], [17, 6], [11, 5], [12, 5], [13, 5], [14, 5], [15, 5], [16, 5]]
-        turret_three=[[25, 12], [2, 11], [23, 11], [3, 10], [4, 9], [6, 9], [16, 9], [7, 8], [8, 8], [10, 8], [12, 8], [14, 8], [15, 8], [18, 6], [11, 4], [12, 4], [16, 4]]
-        support_two = [[18, 12], [17, 11], [24, 11], [16, 10], [23, 10], [15, 9], [22, 9], [21, 8], [20, 7], [7, 6], [19, 6], [18, 5], [17, 4], [14, 3], [15, 2], [16, 2]]
-        wall_three = [[2, 13], [3, 12], [17, 12], [4, 11], [16, 11], [5, 10], [6, 10], [7, 10], [8, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [14, 10], [15, 10], [10, 5]]
-        wall_upgrade_one = [[0, 13], [1, 13], [2, 13], [18, 13], [19, 13], [20, 13], [21, 13], [23, 13], [24, 13], [25, 13], [26, 13], [3, 12], [17, 12], [20, 12], [23, 12], [4, 11], [19, 11], [22, 11], [18, 10], [21, 10], [17, 9], [20, 9], [16, 8], [19, 8]]
-        turret_upgrade_one = [[1, 12], [19, 12], [24, 12], [26, 12], [2, 11], [18, 11], [23, 11], [17, 10], [22, 10], [21, 9], [5, 8], [8, 8], [10, 8], [13, 8], [20, 8]]
+        wall_one =[[2, 13], [22, 13], [24, 13], [25, 13], [3, 12], [21, 12], [4, 11], [20, 11], [5, 10], [6, 10], [19, 10], [7, 9], [18, 9], [8, 8], [9, 8], [10, 8], [11, 8], [12, 8], [13, 8], [14, 8], [15, 8], [16, 8], [17, 8]]
+        turret_one=[[0, 13], [1, 13], [26, 13], [27, 13], [24, 11], [6, 9]]
+        turret_two =[[1, 12], [2, 12], [25, 12], [26, 12], [23, 10], [22, 9], [12, 7], [16, 7]]
+        support_one =[[13, 3], [14, 3], [11, 2], [14, 2], [15, 2], [12, 1], [15, 1], [13, 0]] 
+        wall_two = [[21, 13], [20, 12], [24, 12], [23, 11], [8, 10], [9, 10], [10, 10], [11, 10], [12, 10], [13, 10], [14, 10], [15, 10], [16, 10], [17, 10], [22, 10], [21, 9], [20, 8], [19, 7], [9, 6], [10, 6], [11, 6], [12, 6], [13, 6], [14, 6], [15, 6], [16, 6], [17, 6], [18, 6]]
+        turret_three=[[1, 12], [2, 12], [25, 12], [26, 12], [3, 11], [4, 10], [23, 10], [5, 9], [8, 9], [9, 9], [10, 9], [11, 9], [12, 9], [13, 9], [14, 9], [15, 9], [16, 9], [17, 9], [22, 9], [21, 8], [20, 7], [19, 6], [10, 5], [11, 5], [12, 5], [13, 5], [14, 5], [15, 5], [16, 5], [17, 5], [18, 5]]
+        turret_four =[[2, 11], [3, 10], [4, 9], [5, 8], [6, 8], [7, 8]]
+        support_two = [[25, 11], [24, 10], [23, 9], [22, 8], [21, 7], [20, 6], [19, 5]]
         game_state.attempt_spawn(WALL,wall_one)
         game_state.attempt_spawn(TURRET,turret_one)
         game_state.attempt_spawn(TURRET,turret_two)
@@ -164,7 +175,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         
 
     def put_interceptor(self,game_state):
-        game_state.attempt_spawn(INTERCEPTOR,[[7,6]],2)
+        game_state.attempt_spawn(INTERCEPTOR,[[21,7]],2)
 
 
     #1700 Rated algorithm
@@ -185,8 +196,23 @@ class AlgoStrategy(gamelib.AlgoCore):
         game_state.attempt_upgrade(wall_locations)
         game_state.attempt_upgrade(second_turrets)
         game_state.attempt_upgrade(third_turrets)
-        
-    
+
+     def spawn_demolishers_or_scouts(self,game_state):
+       veccy= find_path_to_edge([14,0], target_edge=None)
+       finset=veccy(end)
+       if (finset(1)+finset(2)==41 or finset(2)-finset(1)==14)and finset(2)>13:
+         #if blocky is 1 then the path is blocked
+         blocky=0
+         else
+         blocky=1
+       if blocky==0 & len(veccy)<53:
+         blocky =1
+       if blocky ==0:
+         game_state.attempt_spawn(DEMOLISHER,[14,0],1000)
+       if blocky ==1: 
+         game_state.attempt_spawn(SCOUT,[14,0],1000)
+  
+
     def spawn_demolishers(self,game_state):
         demolisher_locations = [[14,0]]
         if(game_state.turn_number%3==2 and game_state.turn_number%6==5):
