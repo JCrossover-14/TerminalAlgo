@@ -132,16 +132,17 @@ class AlgoStrategy(gamelib.AlgoCore):
         if game_state.turn_number<3:
             self.put_interceptor(game_state)
             self.build_early(game_state)
-        elif game_state.turn_number<30:
+        else:
+      #game_state.turn_number<30:
             self.build_funnel(game_state) 
             if game_state.contains_stationary_unit(supporttaken)!=False and game_state.get_resources(0)[1]>11:
                self.spawn_demolishers_or_scouts(game_state)
-        else:
-            self.build_funnel(game_state)
-            if game_state.turn_number%2==0:
-              self.build_block(game_state)
-            elif game_state.get_resources(0)[1]>11:
-              self.spawn_demolishers_or_scouts(game_state)
+        #else:
+           # self.build_funnel(game_state)
+            #if game_state.turn_number%2==0:
+            #  self.build_block(game_state)
+           # elif game_state.get_resources(0)[1]>11:
+            #  self.spawn_demolishers_or_scouts(game_state)
 
     def build_block(self, game_state):
         blook =[[14, 7], [13, 7]]
