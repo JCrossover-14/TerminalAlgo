@@ -1,3 +1,1 @@
-"# TerminalAlgo" 
-"# JPMorganChaseVirtualExperience" 
-"# 4pc-game" 
+"Monica and Jerry's strategy for Terminal Algo game"
